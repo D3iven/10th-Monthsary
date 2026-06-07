@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Love, My Life</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES --- */
+        :root {
+            --bg-deep: #0f0202;       
+            --bg-gradient: radial-gradient(circle at center, #2a0a10 0%, #0f0202 100%);
+            --rose-gold: #e0bfb8;
+            --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --text-main: #fff0f5;     
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(224, 191, 184, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- PETALS --- */
+        .petals {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            background: var(--rose-gold);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.4;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translate(0, -10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            100% { transform: translate(100px, 110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--rose-gold); text-shadow: 0 0 15px rgba(224, 191, 184, 0.4); }
+        .script { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px var(--rose-gold); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+        /* --- HERO --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+        .hero h1 { font-size: 4rem; margin-bottom: 20px; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: glow 3s infinite alternate; }
+        @keyframes glow { from { filter: drop-shadow(0 0 5px rgba(191, 149, 63, 0.5)); } to { filter: drop-shadow(0 0 20px rgba(251, 245, 183, 0.8)); } }
+
+        .btn-main {
+            margin-top: 40px; padding: 18px 50px; background: linear-gradient(45deg, #b38728, #fcf6ba);
+            border: none; color: #2a0a10; font-family: 'Cinzel', serif; font-weight: 800;
+            font-size: 1rem; letter-spacing: 2px; cursor: pointer;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: 0.3s; box-shadow: 0 0 20px rgba(252, 246, 186, 0.4);
+        }
+        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(252, 246, 186, 0.6); }
+
+        section { padding: 100px 0; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; position: relative; display: inline-block; left: 50%; transform: translateX(-50%); }
+        .section-title::after { content: ''; display: block; width: 60%; height: 2px; background: var(--gold-gradient); margin: 15px auto 0; }
+
+        /* --- GALLERY --- */
+        .gallery-grid { column-count: 3; column-gap: 25px; }
+        .gallery-item { break-inside: avoid; margin-bottom: 25px; position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--glass-border); transition: 0.4s; }
+        .gallery-item:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-color: var(--rose-gold); }
+        .gallery-item img { width: 100%; height: auto; display: block; transition: 0.5s; filter: brightness(0.8) sepia(0.3); }
+        .gallery-item:hover img { filter: brightness(1.1) sepia(0); transform: scale(1.05); }
+
+        /* --- 1. THE ELEGANT ROSE GARDEN --- */
+        .garden-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 50px; }
+        
+        .rose-container {
+            position: relative;
+            width: 150px;
+            height: 200px; /* Taller to accommodate label */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+        }
+
+        /* The Rose Wrapper holds the petals */
+        .rose-flower {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Individual Petals */
+        .petal-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s ease;
+            opacity: 0.8;
+        }
+
+        .petal-layer i {
+            font-size: 3rem;
+            /* Make them pink/red */
+            color: #ff6b6b; 
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+            transition: transform 0.8s ease;
+        }
+
+        /* Rotate petals to form a closed bud initially */
+        .petal-layer:nth-child(1) i { transform: rotate(0deg) scale(0.1); }
+        .petal-layer:nth-child(2) i { transform: rotate(72deg) scale(0.1); }
+        .petal-layer:nth-child(3) i { transform: rotate(144deg) scale(0.1); }
+        .petal-layer:nth-child(4) i { transform: rotate(216deg) scale(0.1); }
+        .petal-layer:nth-child(5) i { transform: rotate(288deg) scale(0.1); }
+
+        /* The Bloomed State */
+        .rose-container.bloomed .rose-flower {
+            transform: scale(1.2); /* Scale up the whole flower */
+        }
+
+        .rose-container.bloomed .petal-layer:nth-child(1) i { transform: rotate(0deg) scale(1) translate(0, -5px); color: #ff4757; }
+        .rose-container.bloomed .petal-layer:nth-child(2) i { transform: rotate(72deg) scale(1) translate(0, -5px); color: #ff6b81; }
+        .rose-container.bloomed .petal-layer:nth-child(3) i { transform: rotate(144deg) scale(1) translate(0, -5px); color: #ff4757; }
+        .rose-container.bloomed .petal-layer:nth-child(4) i { transform: rotate(216deg) scale(1) translate(0, -5px); color: #ff6b81; }
+        .rose-container.bloomed .petal-layer:nth-child(5) i { transform: rotate(288deg) scale(1) translate(0, -5px); color: #ff4757; }
+
+        /* Label Styling */
+        .rose-label {
+            margin-top: 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.6s;
+            height: 40px;
+        }
+
+        .rose-container:hover .rose-label { opacity: 0.5; transform: translateY(15px); }
+        .rose-container.bloomed .rose-label { opacity: 1; color: var(--rose-gold); transform: translateY(0); font-size: 1rem; text-shadow: 0 0 10px rgba(224, 191, 184, 0.5); }
+
+        /* Hover effect on unbloomed */
+        .rose-container:not(.bloomed):hover .rose-flower {
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* --- 2. LETTERS SECTION --- */
+        .letters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+        .letter-card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            padding: 40px 20px; text-align: center; cursor: pointer;
+            border-radius: 8px; backdrop-filter: blur(5px); transition: 0.4s;
+        }
+        .letter-card:hover { background: rgba(224, 191, 184, 0.1); transform: translateY(-5px); border-color: var(--rose-gold); }
+        .letter-card i { font-size: 2.5rem; color: var(--rose-gold); margin-bottom: 15px; transition: 0.3s; }
+        .letter-card:hover i { transform: scale(1.2) rotate(-10deg); }
+        .letter-card h4 { font-family: 'Cinzel', serif; color: #fff; margin-bottom: 5px; }
+        .letter-card p { font-size: 0.8rem; color: #aaa; }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 2000;
+            justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: #fffaf0; color: #3a1a1a; padding: 50px; max-width: 500px; width: 90%;
+            border-radius: 4px; position: relative; text-align: center;
+            border: 2px solid var(--rose-gold); box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            animation: zoomIn 0.3s ease;
+        }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #888; transition: 0.2s; }
+        .close-modal:hover { color: #d6336c; }
+
+        /* --- FOOTER & MISC --- */
+        footer { text-align: center; padding: 50px 0; color: #666; }
+        .floating-heart {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: #d6336c; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            cursor: pointer; z-index: 100; animation: heartbeat 1.5s infinite; border: 2px solid white;
+        }
+        @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.2); } 30% { transform: scale(1); } 45% { transform: scale(1.1); } 60% { transform: scale(1); } }
+        
+        #hidden-photos { display: none; }
+        .load-more-container { text-align: center; margin-top: 30px; }
+        .btn-load { background: transparent; border: 1px solid var(--rose-gold); color: var(--rose-gold); padding: 10px 30px; font-family: 'Cinzel', serif; cursor: pointer; margin-top: 20px; }
+        .btn-load:hover { background: rgba(224, 191, 184, 0.1); }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; } .gallery-grid { column-count: 1; } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="petals" id="petals-container"></div>
+
+    <header class="hero">
+        <div class="script">Happy 10th Monthsary</div>
+        <h1>My Dearest Love</h1>
+        <p style="max-width: 600px; line-height: 1.6; color: #ddd; margin-bottom: 20px;">
+            Every moment with you is a treasure. Click the roses to reveal our journey.
+        </p>
+        <a href="#garden" class="btn-main">Enter the Garden</a>
+    </header>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Beautiful Memories</h2>
+            <div class="gallery-grid" id="gallery-grid">
+                <div class="gallery-item"><img src="1.jpg" alt="Us"></div>
+                <div class="gallery-item"><img src="2.jpg" alt="Us"></div>
+                <div class="gallery-item"><img src="3.jpg" alt="Us"></div>
+                <div class="gallery-item"><img src="4.jpg" alt="Us"></div>
+                <div class="gallery-item"><img src="5.jpg" alt="Us"></div>
+                <div class="gallery-item"><img src="6.jpg" alt="Us"></div>
+                <div id="hidden-photos">
+                    <div class="gallery-item"><img src="7.jpg" alt="Us"></div>
+                    <div class="gallery-item"><img src="8.jpg" alt="Us"></div>
+                    <div class="gallery-item"><img src="9.jpg" alt="Us"></div>
+                </div>
+            </div>
+            <div class="load-more-container">
+                <button class="btn-load" onclick="loadMore()">Show More Memories</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. THE ELEGANT ROSE GARDEN (Redesigned) -->
+    <section id="garden" style="background: rgba(0,0,0,0.2);">
+        <div class="container">
+            <h2 class="section-title">Our Garden of Love</h2>
+            <p style="text-align: center; margin-bottom: 40px; color: #ccc;">Click a rose to watch it bloom</p>
+            
+            <div class="garden-grid">
+                <!-- Rose 1 -->
+                <div class="rose-container" onclick="bloomRose(this, 'The Day We Met')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 2 -->
+                <div class="rose-container" onclick="bloomRose(this, 'First Kiss')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 3 -->
+                <div class="rose-container" onclick="bloomRose(this, 'Our Trips')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 4 -->
+                <div class="rose-container" onclick="bloomRose(this, 'Overnight Together')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 5 -->
+                <div class="rose-container" onclick="bloomRose(this, 'Bulastog Days')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 6 -->
+                <div class="rose-container" onclick="bloomRose(this, 'Your Birthday')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                 <!-- Rose 7 -->
+                 <div class="rose-container" onclick="bloomRose(this, 'My Birthday')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 8 -->
+                <div class="rose-container" onclick="bloomRose(this, 'Rainy Days')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 9 -->
+                <div class="rose-container" onclick="bloomRose(this, 'Funny Moments')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+                <!-- Rose 10 -->
+                <div class="rose-container" onclick="bloomRose(this, 'Eating Together')">
+                    <div class="rose-flower">
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                        <div class="petal-layer"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="rose-label">Click Me</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. LETTERS SECTION -->
+    <section id="letters">
+        <div class="container">
+            <h2 class="section-title">Letters From My Heart</h2>
+            <p style="text-align: center; margin-bottom: 40px; color: #ccc;">Click an envelope to read a secret note</p>
+            
+            <div class="letters-grid">
+                <div class="letter-card" onclick="showLetter('The Beginning', 'I remember the exact moment I saw you. Nag slow motion ang mundo at bigla akong kinabahan. Thank you sa pag first move hehe.')">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <h4>Read Note #1</h4>
+                    <p>The Beginning</p>
+                </div>
+                <div class="letter-card" onclick="showLetter('My Promise', 'I promise to be by your side supporting you forever. I love you endlessly.')">
+                    <i class="fas fa-heart"></i>
+                    <h4>Read Note #2</h4>
+                    <p>My Promise</p>
+                </div>
+                <div class="letter-card" onclick="showLetter('Why You?', 'Because you are the most amazing person I have ever met and I feel like you and me are meant to be. Because with you, I am home.')">
+                    <i class="fas fa-feather-alt"></i>
+                    <h4>Read Note #3</h4>
+                    <p>Why You?</p>
+                </div>
+                <div class="letter-card" onclick="showLetter('Our Future', 'I dream of growing old with you. Of coffee in the morning and quiet walks at night. You are my future.')">
+                    <i class="fas fa-infinity"></i>
+                    <h4>Read Note #4</h4>
+                    <p>Our Future</p>
+                </div>
+                <div class="letter-card" onclick="showLetter('A Secret', 'I fall more in love with you every single day. You have no idea how happy you make me.')">
+                    <i class="fas fa-key"></i>
+                    <h4>Read Note #5</h4>
+                    <p>A Secret</p>
+                </div>
+                <div class="letter-card" onclick="showLetter('Just Because', 'I made this website just to see you smile. I hope you know how special you are to me.')">
+                    <i class="fas fa-gift"></i>
+                    <h4>Read Note #6</h4>
+                    <p>Just Because</p>
+                </div>
+                <div class="letter-card" onclick="showLetter('Im Sorry', 'Im sorry if this is all I have to offer you for this special day and Im sorry for all my late replies and sa lahat ng pagkukulang ko, Im trying my best because I really do love you.')">
+                    <i class="fas fa-gift"></i>
+                    <h4>Read Note #6</h4>
+                    <p>I'm Sorry</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="text-align: center; padding: 50px 0; color: #666;">
+        <p>Made with all my love for you.</p>
+    </footer>
+
+    <!-- FLOATING HEART BUTTON -->
+    <div class="floating-heart" onclick="burstHearts()">
+        <i class="fas fa-heart"></i>
+    </div>
+
+    <!-- MODAL -->
+    <div id="letter-modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title" style="color: #8a2be2; margin-bottom: 20px; font-family: 'Cinzel';">Title</h3>
+            <p id="modal-body" style="font-family: 'Great Vibes'; font-size: 1.5rem; line-height: 1.6; color: #4a3b3b;">Content</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // 1. Petals
+        const petalsContainer = document.getElementById('petals-container');
+        for(let i=0; i<20; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            petalsContainer.appendChild(petal);
+        }
+
+        // 2. Load More Photos
+        function loadMore() {
+            const hidden = document.getElementById('hidden-photos');
+            const grid = document.getElementById('gallery-grid');
+            const btn = document.querySelector('.btn-load');
+            while (hidden.firstChild) {
+                grid.appendChild(hidden.firstChild);
+            }
+            btn.style.display = 'none';
+        }
+
+        // 3. ROSE BLOOM LOGIC (Updated for new structure)
+        function bloomRose(element, message) {
+            if (element.classList.contains('bloomed')) return;
+            
+            // Add class to trigger CSS bloom animation
+            element.classList.add('bloomed');
+            
+            // Update text
+            const label = element.querySelector('.rose-label');
+            label.innerText = message;
+
+            // Burst effect
+            burstHearts(element);
+        }
+
+        // 4. MODAL LOGIC
+        function showLetter(title, body) {
+            const modal = document.getElementById('letter-modal');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = body;
+            modal.style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('letter-modal').style.display = 'none';
+        }
+
+        // 5. HEART BURST
+        function burstHearts(sourceElement) {
+            const colors = ['#ff6b6b', '#ff8787', '#fa5252', '#e03131'];
+            let originX, originY;
+            
+            if (sourceElement && sourceElement.classList.contains('floating-heart')) {
+                originX = window.innerWidth - 60; originY = window.innerHeight - 60;
+            } else if (sourceElement) {
+                const rect = sourceElement.getBoundingClientRect();
+                originX = rect.left + rect.width/2; originY = rect.top + rect.height/2;
+            } else { return; }
+
+            for(let i=0; i<15; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                heart.style.position = 'fixed';
+                heart.style.left = originX + 'px'; heart.style.top = originY + 'px';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                heart.style.pointerEvents = 'none'; heart.style.zIndex = 9999;
+                document.body.appendChild(heart);
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 50 + Math.random() * 100;
+                
+                heart.animate([
+                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
+                    { transform: `translate(${Math.cos(angle)*velocity}px, ${Math.sin(angle)*velocity - 150}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 800 + Math.random() * 400, easing: 'cubic-bezier(0, .9, .57, 1)'
+                }).onfinish = () => heart.remove();
+            }
+        }
+    </script>
+</body>
+</html>
